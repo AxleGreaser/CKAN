@@ -41,7 +41,7 @@ namespace CKAN.CmdLine
             }
 
             // Default to GUI if there are no command line args or if the only args are flags rather than commands.
-            if (args.All(a => a == "--verbose" || a == "--debug" || a == "--asroot" || a == "--show-console"))
+            if (args.All(a => a == "-v" || a == "--verbose" || a == "-d" || a == "--debug" || a == "--asroot" || a == "--show-console"))
             {
                 var guiCommand = args.ToList();
                 guiCommand.Insert(0, "gui");

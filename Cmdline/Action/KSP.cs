@@ -46,7 +46,8 @@ namespace CKAN.CmdLine
                 if (string.IsNullOrEmpty(verb))
                 {
                     ht.AddPreOptionsLine("ckan ksp - Manage KSP installs");
-                    ht.AddPreOptionsLine($"Usage: ckan ksp <command> [options]");
+                    ht.AddPreOptionsLine("Usage: ckan ksp <command> [options]");
+                    ht.AddPreOptionsLine("try  : ckan ksp <command> --help    to get help on a ksp command.");
                 }
                 else
                 {

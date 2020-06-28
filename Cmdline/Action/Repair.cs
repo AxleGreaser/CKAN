@@ -21,7 +21,8 @@ namespace CKAN.CmdLine
                 if (string.IsNullOrEmpty(verb))
                 {
                     ht.AddPreOptionsLine("ckan repair - Attempt various automatic repairs");
-                    ht.AddPreOptionsLine($"Usage: ckan repair <command> [options]");
+                    ht.AddPreOptionsLine("Usage: ckan repair <command> [options]");
+                    ht.AddPreOptionsLine("try  : ckan repair <command> --help    to get help on a repair command.");
                 }
                 else
                 {

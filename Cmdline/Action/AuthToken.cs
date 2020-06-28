@@ -146,7 +146,8 @@ namespace CKAN.CmdLine
             if (string.IsNullOrEmpty(verb))
             {
                 ht.AddPreOptionsLine("ckan authtoken - Manage authentication tokens");
-                ht.AddPreOptionsLine($"Usage: ckan authtoken <command> [options]");
+                ht.AddPreOptionsLine("Usage: ckan authtoken <command> [options]");
+                ht.AddPreOptionsLine("try  : ckan authtoken <command> --help    to get help on a authtoken command.");
             }
             else
             {

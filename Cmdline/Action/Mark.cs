@@ -138,7 +138,8 @@ namespace CKAN.CmdLine
             if (string.IsNullOrEmpty(verb))
             {
                 ht.AddPreOptionsLine("ckan mark - Edit flags on modules");
-                ht.AddPreOptionsLine($"Usage: ckan mark <command> [options]");
+                ht.AddPreOptionsLine("Usage: ckan mark <command> [options]");
+                ht.AddPreOptionsLine("try  : ckan mark <command> --help    to get help on a mark command.");
             }
             else
             {

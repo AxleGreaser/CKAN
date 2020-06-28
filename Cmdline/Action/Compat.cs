@@ -29,7 +29,8 @@ namespace CKAN.CmdLine.Action
                 if (string.IsNullOrEmpty(verb))
                 {
                     ht.AddPreOptionsLine("ckan compat - Manage KSP version compatibility");
-                    ht.AddPreOptionsLine($"Usage: ckan compat <command> [options]");
+                    ht.AddPreOptionsLine("Usage: ckan compat <command> [options]");
+                    ht.AddPreOptionsLine("try  : ckan compat <command> --help    to get help on a compat command.");
                 }
                 else
                 {

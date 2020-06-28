@@ -40,7 +40,8 @@ namespace CKAN.CmdLine
                 if (string.IsNullOrEmpty(verb))
                 {
                     ht.AddPreOptionsLine("ckan repo - Manage CKAN repositories");
-                    ht.AddPreOptionsLine($"Usage: ckan repo <command> [options]");
+                    ht.AddPreOptionsLine("Usage: ckan repo <command> [options]");
+                    ht.AddPreOptionsLine("try  : ckan repo <command> --help    to get help on a repo command.");
                 }
                 else
                 {

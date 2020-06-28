@@ -39,7 +39,8 @@ namespace CKAN.CmdLine
                 if (string.IsNullOrEmpty(verb))
                 {
                     ht.AddPreOptionsLine("ckan cache - Manage the download cache path of CKAN");
-                    ht.AddPreOptionsLine($"Usage: ckan cache <command> [options]");
+                    ht.AddPreOptionsLine("Usage: ckan cache <command> [options]");
+                    ht.AddPreOptionsLine("try  : ckan cache <command> --help    to get help on a cache command.");
                 }
                 else
                 {

@@ -124,7 +124,8 @@ namespace CKAN.CmdLine
             ht.AddPreOptionsLine(" ");
             if (string.IsNullOrEmpty(verb))
             {
-                ht.AddPreOptionsLine($"Usage: ckan <command> [options]");
+                ht.AddPreOptionsLine("Usage: ckan <command> [options]");
+                ht.AddPreOptionsLine("Try    ckan <command> --help      to get help on a command.");
             }
             else
             {

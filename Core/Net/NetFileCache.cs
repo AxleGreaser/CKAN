@@ -632,7 +632,7 @@ namespace CKAN
         /// </summary>
         /// <param name="url">URL to hash</param>
         /// <returns>
-        /// Returns the 8-byte hash for a given url
+        /// Returns the 8-byte sha1 hash of the utf8 text representation of a given url
         /// </returns>
         public static string CreateURLHash(Uri url)
         {
@@ -645,7 +645,7 @@ namespace CKAN
         }
 
         /// <summary>
-        /// Calculate the SHA1 hash of a file
+        /// Fetch or (Calculate & then cache), the SHA1 hash of a file's contents
         /// </summary>
         /// <param name="filePath">Path to file to examine</param>
         /// <returns>
@@ -683,7 +683,7 @@ namespace CKAN
         }
 
         /// <summary>
-        /// Calculate the SHA256 hash of a file
+        /// Calculate the SHA256 hash of a file's contents
         /// </summary>
         /// <param name="filePath">Path to file to examine</param>
         /// <returns>

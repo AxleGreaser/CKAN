@@ -1,3 +1,4 @@
+using System;
 using CommandLine;
 using CommandLine.Text;
 using log4net;
@@ -20,6 +21,9 @@ namespace CKAN.CmdLine
 
             [VerbOption("clear", HelpText = "Clear the download cache directory")]
             public CommonOptions ClearOptions { get; set; }
+
+            [VerbOption("purge", HelpText = "Purge a specified Mod URI from the cache")] 
+            public PurgeOptions PurgeOptions { get; set; }
 
             [VerbOption("reset", HelpText = "Set the download cache path to the default")]
             public CommonOptions ResetOptions { get; set; }
@@ -53,6 +57,9 @@ namespace CKAN.CmdLine
                         case "setlimit":
                             ht.AddPreOptionsLine($"Usage: ckan cache {verb} [options] megabytes");
                             break;
+                        case "purge":
+                            ht.AddPreOptionsLine($"Usage: ckan cache {verb} [options] modsURI");
+                            break;
 
                         // Now the commands with only --flag type options
                         case "list":
@@ -78,6 +85,12 @@ namespace CKAN.CmdLine
         {
             [ValueOption(0)]
             public long Megabytes { get; set; } = -1;
+        }
+
+        private class PurgeOptions : CommonOptions
+        {
+            [ValueOption(0)]
+            public string ModURI { get; set; }
         }
 
         /// <summary>
@@ -120,6 +133,10 @@ namespace CKAN.CmdLine
 
                         case "clear":
                             exitCode = ClearCacheDirectory((CommonOptions)suboptions);
+                            break;
+
+                        case "purge":
+                            exitCode = PurgeModURICache((PurgeOptions)suboptions);
                             break;
 
                         case "reset":
@@ -179,6 +196,19 @@ namespace CKAN.CmdLine
         {
             manager.Cache.RemoveAll();
             user.RaiseMessage("Download cache cleared.");
+            printCacheInfo();
+            return Exit.OK;
+        }
+
+        private int PurgeModURICache(PurgeOptions options)
+        {
+            Uri modURI;
+            bool Ok = Uri.TryCreate("options.ModURI", UriKind.Absolute, out modURI);
+            if (Ok) {
+                Ok = manager.Cache.Purge(modURI);
+                user.RaiseMessage(Ok? $"{options.ModURI} purged from Download cache." :
+                    $"{options.ModURI} NOT found in Download cache.");
+            }
             printCacheInfo();
             return Exit.OK;
         }

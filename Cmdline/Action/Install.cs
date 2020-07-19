@@ -108,7 +108,7 @@ namespace CKAN.CmdLine
             {
                 // What? No files specified?
                 user.RaiseMessage(
-                    "Usage: ckan install [--with-suggests] [--with-all-suggests] [--no-recommends] [--headless] Mod [Mod2, ...]");
+                    $"Usage: ckan {options.Command} [--with-suggests] [--with-all-suggests] [--no-recommends] [--headless] [std_options] Mod [Mod2, ...]");
                 return Exit.BADOPT;
             }
 
@@ -152,8 +152,8 @@ namespace CKAN.CmdLine
                         user.RaiseMessage("{0} requires {1} {2} but it is not listed in the index, or not available for your version of KSP.", ex.parent, ex.module, ex.version);
                     }
                     user.RaiseMessage("If you're lucky, you can do a `ckan update` and try again.");
-                    user.RaiseMessage("Try `ckan install --no-recommends` to skip installation of recommended modules.");
-                    user.RaiseMessage("Or `ckan install --allow-incompatible` to ignore module compatibility.");
+                    user.RaiseMessage($"Try `ckan {options.Command} --no-recommends` to skip installation of recommended modules.");
+                    user.RaiseMessage($"Or `ckan {options.Command} --allow-incompatible` to ignore module compatibility.");
                     return Exit.ERROR;
                 }
                 catch (ModuleNotFoundKraken ex)
@@ -167,8 +167,8 @@ namespace CKAN.CmdLine
                         user.RaiseMessage("Module {0} {1} required but it is not listed in the index, or not available for your version of KSP.", ex.module, ex.version);
                     }
                     user.RaiseMessage("If you're lucky, you can do a `ckan update` and try again.");
-                    user.RaiseMessage("Try `ckan install --no-recommends` to skip installation of recommended modules.");
-                    user.RaiseMessage("Or `ckan install --allow-incompatible` to ignore module compatibility.");
+                    user.RaiseMessage($"Try `ckan {options.Command} --no-recommends` to skip installation of recommended modules.");
+                    user.RaiseMessage($"Or `ckan {options.Command} --allow-incompatible` to ignore module compatibility.");
                     return Exit.ERROR;
                 }
                 catch (BadMetadataKraken ex)

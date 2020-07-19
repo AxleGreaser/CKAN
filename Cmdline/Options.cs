@@ -36,6 +36,7 @@ namespace CKAN.CmdLine
                     throw new BadCommandKraken();
                 }
             );
+            ((CommonOptions)(options)).Command = action; 
         }
     }
 
@@ -106,6 +107,9 @@ namespace CKAN.CmdLine
         [VerbOption("cache", HelpText = "Manage download cache path")]
         public SubCommandOptions Cache { get; set; }
 
+        [VerbOption("reinstall", HelpText = "Remove a mod, then reinstall the mod")]
+        public ReinstallOptions ReinstallOptions { get; set; }
+
         [VerbOption("compat", HelpText = "Manage KSP version compatibility")]
         public SubCommandOptions Compat { get; set; }
 
@@ -136,6 +140,7 @@ namespace CKAN.CmdLine
                     case "install":
                     case "remove":
                     case "uninstall":
+                    case "reinstall":
                     case "upgrade":
                         ht.AddPreOptionsLine($"Usage: ckan {verb} [options] modules");
                         break;
@@ -214,6 +219,18 @@ namespace CKAN.CmdLine
         public string GetUsage(string verb)
         {
             return HelpText.AutoBuild(this, verb);
+        }
+
+        private string _command = System.String.Empty;
+        public string Command { 
+            get 
+            { 
+                return _command; 
+            } 
+            set 
+            { 
+                _command = value ?? System.String.Empty; 
+            }  
         }
 
         public virtual int Handle(KSPManager manager, IUser user)
@@ -363,7 +380,7 @@ namespace CKAN.CmdLine
     }
 
     /// <summary>
-    /// For things which are subcommands ('ksp', 'repair' etc), we just grab a list
+    /// For things which are subcommands ('ksp', 'repair' etc), we just grab a list (minus the command arg[0])
     /// we can pass on.
     /// </summary>
     public class SubCommandOptions : CommonOptions
@@ -379,10 +396,22 @@ namespace CKAN.CmdLine
         }
     }
 
+    /// <summary>
+    /// Common Base Class For commands that use a list of modules to Act on
+    /// Current Install Remove and Reinstall
+    /// Reinstall is the Command that requires this commonality to work
+    /// </summary>
+    public class ListOfModuleOptions : InstanceSpecificOptions
+    {
+        [ValueList(typeof(List<string>))]
+        public List<string> modules { get; set; }
+
+    }
+
     // Each action defines its own options that it supports.
     // Don't forget to cast to this type when you're processing them later on.
 
-    internal class InstallOptions : InstanceSpecificOptions
+    internal class InstallOptions : ListOfModuleOptions
     {
         [OptionArray('c', "ckanfiles", HelpText = "Local CKAN files to process")]
         public string[] ckan_files { get; set; }
@@ -398,9 +427,6 @@ namespace CKAN.CmdLine
 
         [Option("allow-incompatible", DefaultValue = false, HelpText = "Install modules that are not compatible with the current game version")]
         public bool allow_incompatible { get; set; }
-
-        [ValueList(typeof(List<string>))]
-        public List<string> modules { get; set; }
     }
 
     internal class UpgradeOptions : InstanceSpecificOptions
@@ -492,16 +518,17 @@ namespace CKAN.CmdLine
         public bool list_changes { get; set; }
     }
 
-    internal class RemoveOptions : InstanceSpecificOptions
+    internal class RemoveOptions : ListOfModuleOptions
     {
         [Option("re", HelpText = "Parse arguments as regular expressions")]
         public bool regex { get; set; }
 
-        [ValueList(typeof(List<string>))]
-        public List<string> modules { get; set; }
-
         [Option("all", DefaultValue = false, HelpText = "Remove all installed mods.")]
         public bool rmall { get; set; }
+    }
+
+    internal class ReinstallOptions : InstallOptions
+    {
     }
 
     internal class ImportOptions : InstanceSpecificOptions

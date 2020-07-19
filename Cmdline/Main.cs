@@ -120,7 +120,7 @@ namespace CKAN.CmdLine
 
             // Process commandline options.
             CommonOptions options = (CommonOptions)cmdline.options;
-            options.Merge(opts);
+            options.Merge(opts); // opts will be none Null when we got here via "ckan prompt opts" and user input . 
             IUser user = new ConsoleUser(options.Headless);
             if (manager == null)
             {
@@ -195,6 +195,14 @@ namespace CKAN.CmdLine
                     case "install":
                         Scan(GetGameInstance(manager), user, cmdline.action);
                         return (new Install(manager, user)).RunCommand(GetGameInstance(manager), cmdline.options);
+
+                    case "reinstall":
+                        Scan(GetGameInstance(manager), user, cmdline.action);
+                        ReinstallOptions ReinstallOptions = (ReinstallOptions)options;
+                        // Note: reinstall does not allow regexs like remove does.
+                        // This reuses part of Remove code, and it explictly down casts ReinstallOptions back to ListOfModuleOptions
+                        (new Remove(manager, user)).RunCommand(GetGameInstance(manager), (ListOfModuleOptions)ReinstallOptions); // Failing to remove as theyare not ther is fine.
+                        return (new Install(manager, user)).RunCommand(GetGameInstance(manager), (InstallOptions)ReinstallOptions);
 
                     case "scan":
                         return Scan(GetGameInstance(manager), user);

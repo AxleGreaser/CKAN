@@ -71,6 +71,25 @@ namespace CKAN.CmdLine
                         .Select(mod => mod.identifier)
                 );
             }
+            return RunCommand(ksp, (ListOfModuleOptions)options, regMgr);
+        }
+
+        /// <summary>
+        /// Uninstalls a list of modules, if they exists.
+        /// </summary>
+        /// <param name="ksp">Game instance from which to remove</param>
+        /// <param name="raw_options">Command line options object</param>
+        /// <param name="regMgr">RegistryManager is passed in iof daisy chaining from above more genric RunCommand</param>
+        /// <returns>
+        /// Exit code for shell environment when doing: ckan Remove ModName
+		/// When entering here during a "reinstall" exit code quietly ignored by caller.
+        /// </returns>
+        public int RunCommand(CKAN.KSP ksp, ListOfModuleOptions options, RegistryManager regMgr=null)
+        {
+            if (regMgr == null) 
+            { 
+                regMgr = RegistryManager.Instance(ksp); 
+            }
 
             if (options.modules != null && options.modules.Count > 0)
             {

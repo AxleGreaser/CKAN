@@ -156,14 +156,18 @@ namespace CKAN.CmdLine
 
                     // Now the commands with only --flag type options
                     case "gui":
+                    case "consoleui":
+                    case "prompt":
                     case "available":
                     case "list":
                     case "update":
                     case "scan":
                     case "clean":
                     case "version":
-                    default:
                         ht.AddPreOptionsLine($"Usage: ckan {verb} [options]");
+                        break;
+                    default:
+                        ht.AddPreOptionsLine($"Usage: ckan <ValidCommand> [options]");
                         break;
                 }
             }
@@ -184,7 +188,7 @@ namespace CKAN.CmdLine
                 if (attrib != null && attrib.LongName == verb)
                     return attrib.HelpText;
             }
-            return "";
+            return "is an Invalid Command";
         }
     }
 
